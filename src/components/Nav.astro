@@ -1,16 +1,31 @@
 ---
 import { Image } from 'astro:assets';
+import Menu from '@lucide/astro/icons/menu';
+import X from '@lucide/astro/icons/x';
 import NavLink from './NavLink.astro';
 import logo from '../assets/logo.png';
 import { navLinks } from '../data/navigation';
 ---
 
-<header class="site-header">
+<header class="site-header" data-site-header>
 	<a class="logo" href="/" aria-label="Present Joy — home" data-reveal>
 		<Image src={logo} alt="Present Joy" widths={[150, 300]} sizes="150px" loading="eager" />
 	</a>
 
-	<nav aria-label="Main">
+	<button
+		class="menu-toggle"
+		type="button"
+		aria-label="Open menu"
+		aria-expanded="false"
+		aria-controls="site-menu"
+		data-menu-toggle
+		data-reveal
+	>
+		<span class="icon icon-open"><Menu size={26} aria-hidden="true" /></span>
+		<span class="icon icon-close"><X size={26} aria-hidden="true" /></span>
+	</button>
+
+	<nav id="site-menu" aria-label="Main">
 		<ul>
 			{
 				navLinks.map(({ href, label }) => (
@@ -24,7 +39,9 @@ import { navLinks } from '../data/navigation';
 </header>
 
 <style>
+	/* Positioned so the mobile panel can hang off the header's bottom edge. */
 	.site-header {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -52,14 +69,97 @@ import { navLinks } from '../data/navigation';
 		list-style: none;
 	}
 
+	/* Desktop shows the links themselves, so the toggle only exists on mobile. */
+	.menu-toggle {
+		display: none;
+	}
 
-	@media (max-width: 480px) {
-		nav ul {
-			gap: 1.25rem;
+	@media (max-width: 47.9375rem) {
+		.site-header {
+			flex-direction: row;
+			justify-content: space-between;
+			gap: 1rem;
 		}
 
 		.logo img {
 			width: 120px;
 		}
+
+		.menu-toggle {
+			display: block;
+			/* Pulls the icon's own padding back out so it optically lines up with
+			   the page gutter rather than sitting a half-step inside it. */
+			margin-right: -0.5rem;
+			padding: 0.5rem;
+			border: 0;
+			background: none;
+			color: var(--brand-blue);
+			line-height: 0;
+			cursor: pointer;
+		}
+
+		.menu-toggle:focus-visible {
+			outline: 2px solid var(--brand-blue);
+			outline-offset: 2px;
+		}
+
+		.icon {
+			display: block;
+		}
+
+		.icon-close,
+		[data-open] .icon-open {
+			display: none;
+		}
+
+		[data-open] .icon-close {
+			display: block;
+		}
+
+		/* Drops from the header edge over the page, inset to the same gutter.
+		   Visibility rather than display keeps it out of the accessibility tree
+		   while closed without dropping the fade. */
+		nav {
+			position: absolute;
+			top: 100%;
+			right: 1.5rem;
+			left: 1.5rem;
+			z-index: 20;
+			visibility: hidden;
+			border: 1px solid var(--hairline);
+			background: #fff;
+			padding: 1.75rem 1.5rem;
+			opacity: 0;
+			transform: translateY(-0.5rem);
+			transition:
+				opacity 240ms ease,
+				transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+				visibility 0s linear 240ms;
+		}
+
+		[data-open] nav {
+			visibility: visible;
+			opacity: 1;
+			transform: none;
+			transition-delay: 0s;
+		}
+
+		nav ul {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 1.5rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		nav {
+			transition: none;
+		}
 	}
 </style>
+
+<script>
+	import { setupMobileMenu } from '../scripts/mobile-menu';
+
+	setupMobileMenu();
+</script>

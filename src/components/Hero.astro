@@ -23,15 +23,18 @@ import heroImage from '../assets/hero.jpg';
 
 		<div class="hero-content">
 			<div class="container">
-				<p data-reveal>
-					Present Joy is a walk of hope that does not ask for more than we can give, yet gives more
-					than we dared ask. It is a pilgrimage that lasts a lifetime for those who seek recovery,
-					not a cure; progress, not perfection. It is a journey that rejoices on the other side of
-					the burdens we carry and pains we try to hide. Present Joy is the recovery that guides us
-					all our days and the conviction that keeps us every step of the way.
-				</p>
+				<div class="hero-copy">
+					<p data-reveal>
+						Present Joy is a walk of hope that does not ask for more than we can give, yet gives
+						more than we dared ask. It is a pilgrimage that lasts a lifetime for those who seek
+						recovery, not a cure; progress, not perfection. It is a journey that rejoices on the
+						other side of the burdens we carry and pains we try to hide. Present Joy is the
+						recovery that guides us all our days and the conviction that keeps us every step of
+						the way.
+					</p>
 
-				<Button href="/about" data-reveal>Learn More</Button>
+					<Button href="/about" data-reveal>Learn More</Button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -88,6 +91,12 @@ import heroImage from '../assets/hero.jpg';
 		padding-block: 1rem clamp(5rem, 24svh, 20rem);
 	}
 
+	/* Centers the copy and button as one block within the page gutter. The
+	   button stays on the block's left edge, flush with the start of the text. */
+	.hero-copy {
+		margin-inline: auto;
+	}
+
 	.hero-content p {
 		margin: 0 0 2.75rem;
 		color: var(--brand-blue);
@@ -99,7 +108,7 @@ import heroImage from '../assets/hero.jpg';
 	/* Held to 60% of the section width. Full width below the breakpoint, where
 	   60% would leave the copy in a very narrow column. */
 	@media (min-width: 48rem) {
-		.hero-content p {
+		.hero-copy {
 			max-width: 60%;
 		}
 

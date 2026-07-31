@@ -63,6 +63,10 @@ const hasOutro = Astro.slots.has('outro');
 		   grid-template-columns. */
 		--intro-photo-size: calc((min(60rem, 100vw) - 3rem) / 3);
 		--section-overlap: calc(var(--intro-photo-size) / 2);
+
+		/* Page titles and section headings read at one size, so they stay in
+		   step from a single definition. */
+		--heading-size: clamp(1.5rem, 1.3rem + 1vw, 2rem);
 	}
 
 	*,
@@ -89,7 +93,7 @@ const hasOutro = Astro.slots.has('outro');
 	h1 {
 		margin: 0;
 		color: var(--brand-blue);
-		font-size: clamp(1.75rem, 1.5rem + 1.2vw, 2.5rem);
+		font-size: var(--heading-size);
 		font-weight: 500;
 		line-height: 1.15;
 		letter-spacing: -0.015em;
@@ -99,7 +103,7 @@ const hasOutro = Astro.slots.has('outro');
 	h2 {
 		margin: 0;
 		color: var(--brand-blue);
-		font-size: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+		font-size: var(--heading-size);
 		font-weight: 500;
 		line-height: 1.2;
 		letter-spacing: -0.01em;

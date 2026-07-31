@@ -6,9 +6,11 @@ import { business } from '../data/business';
 const { street, city, region, postalCode } = business.address;
 const address = [street, `${city}, ${region} ${postalCode}`];
 
-// Keyless embed: the same query the Maps site accepts, rendered as a map
-// rather than a search page. No API key to provision or keep in the repo.
-const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(address.join(', '))}&z=15&output=embed`;
+// Keyless embed, addressed directly rather than via `maps?q=…&output=embed`:
+// that form 301s here anyway, and the redirect carries X-Frame-Options:
+// SAMEORIGIN, which Chrome enforces mid-chain and blocks the frame over. The
+// `pb` payload is Maps' own encoding — !2m1!1s is the query, !6i the zoom.
+const mapSrc = `https://www.google.com/maps/embed?pb=!1m3!2m1!1s${encodeURIComponent(address.join(', '))}!6i15`;
 ---
 
 <Layout

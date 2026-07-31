@@ -2,29 +2,35 @@
 import ArrowRight from '@lucide/astro/icons/arrow-right';
 
 interface Props {
-	href: string;
+	/** Omit to render a <button> instead of a link. */
+	href?: string;
 	variant?: 'solid' | 'text';
 	[key: string]: unknown;
 }
 
 const { href, variant = 'solid', ...rest } = Astro.props;
+
+const Tag = href ? 'a' : 'button';
 ---
 
-<a class:list={['btn', variant]} href={href} {...rest}>
+<Tag class:list={['btn', variant]} href={href} {...rest}>
 	<span class="btn-label"><slot /></span>
 	<ArrowRight size={16} aria-hidden="true" />
-</a>
+</Tag>
 
 <style>
 	.btn {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.625rem;
+		border: 0;
+		font-family: inherit;
 		font-size: 0.875rem;
 		font-weight: 500;
 		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		text-decoration: none;
+		cursor: pointer;
 	}
 
 	.btn :global(svg) {
@@ -39,6 +45,11 @@ const { href, variant = 'solid', ...rest } = Astro.props;
 	.btn:focus-visible {
 		outline: 2px solid var(--brand-blue);
 		outline-offset: 3px;
+	}
+
+	.btn:disabled {
+		opacity: 0.6;
+		cursor: default;
 	}
 
 	.solid {

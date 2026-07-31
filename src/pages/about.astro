@@ -3,5 +3,73 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="About | Present Joy">
-	<h1>About</h1>
+	<article class="about">
+		<h1>About</h1>
+
+		<p class="lead">
+			Present Joy Therapy is a recovery-focused psychotherapy practice in South Pasadena, CA, that
+			provides in-person and telehealth services to adults dealing with drug and alcohol abuse,
+			anger, depression, and grief and loss.
+		</p>
+
+		<p>
+			Recovery is a lifelong undertaking that is restorative and healing to those who pursue it with
+			all they have. When pursued relentlessly and courageously, recovery demands that we move on
+			from what’s keeping us from being our best and move towards what will bring out the best in us.
+			I believe with every atom of my being that the fruits of a hard-won and lasting recovery are
+			plentiful: love, joy, peace, patience, espirit de corps, bonhomie, empowerment, freedom,
+			reconciliation, self-determination—to name a few.
+		</p>
+
+		<p>
+			At Present Joy, I meet you as you are and strive to give you my best. I aim to walk with you in
+			your travels through the highs and lows of recovery, and all the swings in-between. I am
+			committed to being there for you and providing you with a safe and supportive space where you
+			feel heard, seen, affirmed and understood as you journey.
+		</p>
+
+		<p>Feel free to <a href="/contact">contact</a> me with any questions you may have.</p>
+
+		<p>I look forward to working with you. Be good to yourself and go after what you want!</p>
+
+		<p>See you on the road.</p>
+
+		<p class="signature">&ndash;David</p>
+	</article>
 </Layout>
+
+<style>
+	.about {
+		max-width: 40rem;
+		margin-inline: auto;
+		padding-block: clamp(2.5rem, 6vw, 4.5rem);
+	}
+
+	.about h1 {
+		margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
+	}
+
+	.about p {
+		margin: 0 0 1.5rem;
+		font-size: 1.0625rem;
+		line-height: 1.8;
+		text-wrap: pretty;
+	}
+
+	.about .lead {
+		font-size: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+		font-weight: 600;
+		line-height: 1.6;
+	}
+
+	.about a {
+		color: var(--brand-blue);
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	.signature {
+		margin-top: 2.5rem;
+		color: var(--muted);
+	}
+</style>

@@ -1,7 +1,150 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
+import office from '../assets/office.png';
+import oxleyBuilding from '../assets/oxley-building.png';
+
+const issues = [
+	{
+		term: 'Addiction',
+		body: 'to drugs and alcohol gave us a voice, but took away our song. Its crushing grip invariably left us feeling powerless, ashamed and guilty, making life harder to manage.',
+	},
+	{
+		term: 'Anger',
+		body: 'is an emotion we all have. It serves a useful purpose, until it becomes an unwinding, destructive force that harms all around.',
+	},
+	{
+		term: 'Depression',
+		body: 'is as old as time and as cold as the ground. It has spared no one from the very beginning. We cannot afford to look past it, much less stand idle.',
+	},
+	{
+		term: 'Grief and Loss',
+		body: 'is the echo of a love that ran so deep it refused to let go because it neither knew how nor wanted to. In times when worn-out cliches like “time heals” did not comfort, presence likely did.',
+	},
+];
 ---
 
 <Layout title="Services | Present Joy">
-	<h1>Services</h1>
+	<div class="services-page">
+		<header>
+			<h1>Services</h1>
+			<p class="lead">
+				I work with adults on an individual basis only. I take a person-centered, strengths-based,
+				integrative approach in working with clients who are facing the issues listed below.
+			</p>
+		</header>
+
+		<div class="layout">
+			<div class="photos">
+				<Image
+					src={oxleyBuilding}
+					alt="The 1510 Oxley Building, its wood-slat facade fronted by a succulent garden"
+					sizes="(max-width: 56rem) 100vw, 26rem"
+				/>
+				<Image
+					src={office}
+					alt="The therapy office: a grey sofa with cushions, a table lamp and four framed prints"
+					sizes="(max-width: 56rem) 100vw, 26rem"
+				/>
+			</div>
+
+			<dl class="issues">
+				{
+					issues.map(({ term, body }) => (
+						<div class="issue">
+							<dt>{term}</dt>
+							<dd>{body}</dd>
+						</div>
+					))
+				}
+			</dl>
+		</div>
+	</div>
 </Layout>
+
+<style>
+	.services-page {
+		padding-block: clamp(2.5rem, 6vw, 4.5rem);
+	}
+
+	header {
+		max-width: 42rem;
+		margin-bottom: clamp(2.5rem, 6vw, 4rem);
+	}
+
+	.lead {
+		margin: clamp(1.25rem, 3vw, 1.75rem) 0 0;
+		font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+		line-height: 1.75;
+		text-wrap: pretty;
+	}
+
+	.layout {
+		display: grid;
+		gap: clamp(2rem, 5vw, 3.5rem);
+	}
+
+	@media (min-width: 56rem) {
+		.layout {
+			grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+			align-items: start;
+		}
+
+		/* Holds the photos in view while the issues scroll past. */
+		.photos {
+			position: sticky;
+			top: 2rem;
+		}
+	}
+
+	.photos {
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	.photos :global(img) {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.issues {
+		margin: 0;
+	}
+
+	.issue {
+		padding-block: clamp(1.25rem, 3vw, 1.75rem);
+		border-top: 1px solid var(--hairline);
+		font-size: 1.0625rem;
+		line-height: 1.8;
+		text-wrap: pretty;
+	}
+
+	.issue:first-child {
+		padding-top: 0;
+		border-top: 0;
+	}
+
+	.issue:last-child {
+		padding-bottom: 0;
+	}
+
+	/* The term opens the sentence its description completes, so the two run
+	   together on one line rather than stacking as a typical list. */
+	dt {
+		display: inline;
+		color: var(--brand-blue);
+		font-weight: 600;
+	}
+
+	dd {
+		display: inline;
+		margin: 0;
+	}
+
+	/* Guarantees the gap between term and description, rather than relying on
+	   source whitespace that minification can collapse away. */
+	dt::after {
+		content: ' ';
+	}
+</style>

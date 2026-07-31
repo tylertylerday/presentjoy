@@ -30,18 +30,23 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
+	/* Gutter sits on the outer element so the rule below can span exactly the
+	   container's content box. */
 	.site-footer {
-		border-top: 1px solid var(--hairline);
+		padding-inline: 1.5rem;
 	}
 
 	.footer-inner {
 		display: flex;
-		max-width: 60rem;
+		/* The container's max-width less its two gutters, so the rule matches
+		   the width of the section content above instead of the viewport. */
+		max-width: calc(60rem - 3rem);
 		flex-direction: column;
 		align-items: center;
 		gap: 1.75rem;
 		margin: 0 auto;
-		padding: clamp(2.5rem, 6vw, 4rem) 1.5rem;
+		padding-block: clamp(2.5rem, 6vw, 4rem);
+		border-top: 1px solid var(--hairline);
 	}
 
 	.footer-logo {

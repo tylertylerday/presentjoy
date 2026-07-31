@@ -1,7 +1,272 @@
 ---
+import Button from '../components/Button.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Contact | Present Joy">
-	<h1>Contact</h1>
+	<div class="contact">
+		<div class="details">
+			<h1>Contact</h1>
+			<p class="lead">
+				Reach out with any questions and schedule a complimentary, 30-minute video call.
+			</p>
+
+			<div class="detail">
+				<h2>Email</h2>
+				<p><a href="mailto:hello@presentjoy.la">hello@presentjoy.la</a></p>
+			</div>
+
+			<div class="detail">
+				<h2>Address</h2>
+				<address>
+					1510 Oxley Street, Suite J<br />
+					South Pasadena, CA 91030
+				</address>
+			</div>
+		</div>
+
+		<form
+			class="form"
+			action="https://api.web3forms.com/submit"
+			method="POST"
+			data-contact-form
+		>
+			{/* Public by design — Web3Forms keys live in client markup. */}
+			<input type="hidden" name="access_key" value="1fe0908a-f16b-49f8-a67f-9a76ad8f6980" />
+			<input type="hidden" name="subject" value="New enquiry from presentjoy.la" />
+			<input type="hidden" name="from_name" value="Present Joy website" />
+
+			{/* Honeypot: hidden from people, tempting to bots. */}
+			<input
+				class="botcheck"
+				type="checkbox"
+				name="botcheck"
+				tabindex="-1"
+				autocomplete="off"
+				aria-hidden="true"
+			/>
+
+			<p class="required-note"><span aria-hidden="true">*</span> Required</p>
+
+			<div class="row">
+				<div class="field">
+					<label for="first-name">First name <span aria-hidden="true">*</span></label>
+					<input id="first-name" name="firstName" type="text" autocomplete="given-name" required />
+				</div>
+
+				<div class="field">
+					<label for="last-name">Last name <span aria-hidden="true">*</span></label>
+					<input id="last-name" name="lastName" type="text" autocomplete="family-name" required />
+				</div>
+			</div>
+
+			<div class="field">
+				<label for="phone">Phone number <span aria-hidden="true">*</span></label>
+				<input
+					id="phone"
+					name="phone"
+					type="tel"
+					inputmode="tel"
+					autocomplete="tel"
+					aria-describedby="phone-help"
+					required
+				/>
+				<p class="help" id="phone-help">
+					Enter your number without any parentheses ( ) or hyphens (-).
+				</p>
+			</div>
+
+			<div class="field">
+				<label for="email">Email <span aria-hidden="true">*</span></label>
+				<input id="email" name="email" type="email" autocomplete="email" required />
+			</div>
+
+			<div class="field">
+				<label for="message">Message <span aria-hidden="true">*</span></label>
+				<textarea id="message" name="message" rows="8" aria-describedby="message-help" required
+				></textarea>
+				<p class="help" id="message-help">
+					Provide any amount of information you feel comfortable sharing. Please do not include any
+					protected health information.
+				</p>
+			</div>
+
+			<Button type="submit">Send message</Button>
+
+			<p class="form-status" data-form-status role="status" aria-live="polite"></p>
+		</form>
+	</div>
 </Layout>
+
+<script>
+	import { setupContactForm } from '../scripts/contact-form';
+
+	setupContactForm();
+</script>
+
+<style>
+	.contact {
+		display: grid;
+		gap: clamp(2.5rem, 6vw, 4.5rem);
+		padding-block: clamp(2.5rem, 6vw, 4.5rem);
+	}
+
+	@media (min-width: 56rem) {
+		.contact {
+			grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+			align-items: start;
+		}
+
+		.details {
+			position: sticky;
+			top: 2rem;
+		}
+	}
+
+	.lead {
+		max-width: 32ch;
+		margin: clamp(1.25rem, 3vw, 1.75rem) 0 0;
+		font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+		line-height: 1.75;
+		text-wrap: pretty;
+	}
+
+	.detail {
+		margin-top: 2.5rem;
+	}
+
+	.detail h2 {
+		font-size: 0.8125rem;
+		font-weight: 500;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.detail p,
+	.detail address {
+		margin: 0.625rem 0 0;
+		font-size: 1.0625rem;
+		font-style: normal;
+		line-height: 1.7;
+	}
+
+	.detail a {
+		color: inherit;
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	.detail a:hover {
+		color: var(--brand-blue);
+	}
+
+	.form {
+		display: grid;
+		gap: 1.5rem;
+		justify-items: start;
+	}
+
+	.required-note {
+		margin: 0;
+		color: var(--muted);
+		font-size: 0.8125rem;
+	}
+
+	.botcheck {
+		display: none;
+	}
+
+	.form-status {
+		margin: 0;
+		font-size: 0.9375rem;
+		line-height: 1.6;
+	}
+
+	/* Empty until the script writes to it, so it takes no space at rest. */
+	.form-status:empty {
+		display: none;
+	}
+
+	.form-status[data-state='pending'] {
+		color: var(--muted);
+	}
+
+	.form-status[data-state='success'] {
+		color: var(--brand-blue);
+	}
+
+	.form-status[data-state='error'] {
+		color: #b3261e;
+	}
+
+	.row {
+		display: grid;
+		gap: 1.5rem;
+		width: 100%;
+	}
+
+	@media (min-width: 30rem) {
+		.row {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.field {
+		display: flex;
+		width: 100%;
+		flex-direction: column;
+	}
+
+	label {
+		margin-bottom: 0.5rem;
+		font-size: 0.9375rem;
+		font-weight: 500;
+	}
+
+	label span {
+		color: var(--brand-blue);
+	}
+
+	input,
+	textarea {
+		width: 100%;
+		padding: 0.75rem 0.875rem;
+		border: 1px solid var(--hairline);
+		background: #fff;
+		color: inherit;
+		font-family: inherit;
+		font-size: 1rem;
+		line-height: 1.5;
+		transition: border-color 150ms ease;
+	}
+
+	textarea {
+		resize: vertical;
+	}
+
+	input:hover,
+	textarea:hover {
+		border-color: #a9b8d8;
+	}
+
+	input:focus-visible,
+	textarea:focus-visible {
+		border-color: var(--brand-blue);
+		outline: 1px solid var(--brand-blue);
+		outline-offset: -2px;
+	}
+
+	.help {
+		margin: 0.5rem 0 0;
+		color: var(--muted);
+		font-size: 0.8125rem;
+		line-height: 1.6;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		input,
+		textarea {
+			transition: none;
+		}
+	}
+</style>

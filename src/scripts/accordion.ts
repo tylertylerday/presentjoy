@@ -1,7 +1,9 @@
 import { animate } from 'motion/mini';
 
 const DURATION = 0.32;
-const EASE = [0.22, 1, 0.36, 1];
+// Annotated as a fixed four: a bare array widens to number[], which is not
+// the cubic-bezier tuple the easing option accepts.
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 /**
  * Animates the open/close of `<details>` elements, which they cannot do

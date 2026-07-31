@@ -1,19 +1,64 @@
 ---
+import { getImage } from 'astro:assets';
 import Backdrop from '../components/Backdrop.astro';
 import Footer from '../components/Footer.astro';
 import Nav from '../components/Nav.astro';
+import shareImage from '../assets/hero.jpg';
+import { business } from '../data/business';
 
 interface Props {
 	title: string;
+	/** Shown under the title in search results and link previews. */
+	description: string;
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
 
 // Pages with a hero render the nav inside it, overlaid on the photo.
 const hasHero = Astro.slots.has('hero');
 
 // A section above the footer makes the backdrop tall and growable.
 const hasOutro = Astro.slots.has('outro');
+
+// Trailing slashes off, so every page has one address search can index.
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site);
+
+// 1200x630 is the size Facebook, LinkedIn and X all crop to.
+const share = await getImage({ src: shareImage, width: 1200, height: 630, format: 'jpeg' });
+const shareUrl = new URL(share.src, Astro.site);
+
+/*
+ * Tells search engines this is a real practice at a real address — the part
+ * that earns a map placement for local searches. Kept to facts already on the
+ * site so the two can't disagree.
+ */
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'MedicalBusiness',
+	'@id': `${business.url}/#practice`,
+	name: business.name,
+	description: business.description,
+	url: business.url,
+	email: business.email,
+	image: shareUrl.href,
+	priceRange: business.priceRange,
+	address: {
+		'@type': 'PostalAddress',
+		streetAddress: business.address.street,
+		addressLocality: business.address.city,
+		addressRegion: business.address.region,
+		postalCode: business.address.postalCode,
+		addressCountry: 'US',
+	},
+	geo: {
+		'@type': 'GeoCoordinates',
+		latitude: business.geo.latitude,
+		longitude: business.geo.longitude,
+	},
+	areaServed: business.areaServed.map((name) => ({ '@type': 'AdministrativeArea', name })),
+	medicalSpecialty: 'Psychiatric',
+	availableService: business.services.map((name) => ({ '@type': 'MedicalTherapy', name })),
+};
 ---
 
 <html lang="en">
@@ -24,6 +69,26 @@ const hasOutro = Astro.slots.has('outro');
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical.href} />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={business.name} />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:url" content={canonical.href} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={shareUrl.href} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content="Sunrise over misty, forested hills" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={shareUrl.href} />
+
+		<script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
 		{/* Runs before paint so entrance animations only hide their targets
 		    when JS is actually available to reveal them again. */}
 		<script is:inline>

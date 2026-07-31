@@ -8,12 +8,15 @@ import Button from './Button.astro';
 	<Image
 		class="intro-photo"
 		src={portrait}
-		alt="David"
+		alt="David, the Licensed Clinical Social Worker behind Present Joy"
+		widths={[304, 480, 608, 760]}
 		sizes="(max-width: 48rem) 100vw, 19rem"
 	/>
 
 	<div class="intro-copy">
-		<h2>Recovery begins here.</h2>
+		{/* The home page's h1. The rule below holds its previous size, so the
+		    rank is for search engines and screen readers, not the eye. */}
+		<h1>Recovery begins here.</h1>
 		<p>I will walk with you on your road to recovery.</p>
 
 		<div class="intro-actions">
@@ -58,7 +61,7 @@ import Button from './Button.astro';
 
 	/* Smaller than the full-width section headings — this one sits in a
 	   narrower column beside the photo. */
-	.intro-copy h2 {
+	.intro-copy h1 {
 		margin-bottom: 1rem;
 		font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
 	}

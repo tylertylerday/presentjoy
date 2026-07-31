@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
-import office from '../assets/office.png';
+import office from '../assets/office.jpg';
 import oxleyBuilding from '../assets/oxley-building.png';
 
 const issues = [
@@ -24,7 +24,10 @@ const issues = [
 ];
 ---
 
-<Layout title="Services | Present Joy">
+<Layout
+	title="Services | Present Joy Therapy, South Pasadena"
+	description="Individual psychotherapy for adults facing addiction, anger, depression, and grief and loss — a person-centered, strengths-based approach in South Pasadena, CA."
+>
 	<div class="services-page" data-reveal>
 		<header>
 			<h1>Services</h1>
@@ -39,11 +42,13 @@ const issues = [
 				<Image
 					src={oxleyBuilding}
 					alt="The 1510 Oxley Building, its wood-slat facade fronted by a succulent garden"
+					widths={[480, 640, 960, 1280]}
 					sizes="(max-width: 56rem) 100vw, 30rem"
 				/>
 				<Image
 					src={office}
-					alt="The therapy office: a grey sofa with cushions, a table lamp and four framed prints"
+					alt="The therapy office: a grey sofa with cushions and a throw, beside a side table with a lamp and a clock, under four framed bird prints"
+					widths={[480, 640, 960, 1280]}
 					sizes="(max-width: 56rem) 100vw, 30rem"
 				/>
 			</div>

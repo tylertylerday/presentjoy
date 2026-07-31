@@ -1,15 +1,20 @@
 ---
 import Button from '../components/Button.astro';
 import Layout from '../layouts/Layout.astro';
+import { business } from '../data/business';
 
-const address = ['1510 Oxley Street, Suite J', 'South Pasadena, CA 91030'];
+const { street, city, region, postalCode } = business.address;
+const address = [street, `${city}, ${region} ${postalCode}`];
 
 // Keyless embed: the same query the Maps site accepts, rendered as a map
 // rather than a search page. No API key to provision or keep in the repo.
 const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(address.join(', '))}&z=15&output=embed`;
 ---
 
-<Layout title="Contact | Present Joy">
+<Layout
+	title="Contact | Present Joy Therapy, South Pasadena"
+	description="Get in touch with Present Joy Therapy at 1510 Oxley Street, Suite J, South Pasadena, CA — and schedule a complimentary 30-minute video consultation."
+>
 	<div class="contact">
 		<div class="details">
 			<h1>Contact</h1>

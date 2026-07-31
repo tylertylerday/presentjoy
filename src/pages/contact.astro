@@ -1,6 +1,12 @@
 ---
 import Button from '../components/Button.astro';
 import Layout from '../layouts/Layout.astro';
+
+const address = ['1510 Oxley Street, Suite J', 'South Pasadena, CA 91030'];
+
+// Keyless embed: the same query the Maps site accepts, rendered as a map
+// rather than a search page. No API key to provision or keep in the repo.
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(address.join(', '))}&z=15&output=embed`;
 ---
 
 <Layout title="Contact | Present Joy">
@@ -19,9 +25,16 @@ import Layout from '../layouts/Layout.astro';
 			<div class="detail">
 				<h2>Address</h2>
 				<address>
-					1510 Oxley Street, Suite J<br />
-					South Pasadena, CA 91030
+					{address[0]}<br />
+					{address[1]}
 				</address>
+
+				<iframe
+					class="map"
+					src={mapSrc}
+					title={`Map showing ${address.join(', ')}`}
+					loading="lazy"
+					referrerpolicy="no-referrer-when-downgrade"></iframe>
 			</div>
 		</div>
 
@@ -137,6 +150,15 @@ import Layout from '../layouts/Layout.astro';
 		font-size: 1.0625rem;
 		font-style: normal;
 		line-height: 1.7;
+	}
+
+	/* Bordered like the form fields so it reads as part of the same set. */
+	.map {
+		display: block;
+		width: 100%;
+		aspect-ratio: 3 / 2;
+		margin-top: 1.25rem;
+		border: 1px solid var(--hairline);
 	}
 
 	.detail a {

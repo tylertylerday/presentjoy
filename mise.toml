@@ -1,0 +1,4 @@
+[tools]
+# Astro 7 requires >=22.12.0; 24.x is the active LTS line. Pinned exactly so
+# local and CI builds agree rather than drifting with whatever's installed.
+node = "24.18.1"

@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Layout from '../layouts/Layout.astro';
 import office from '../assets/office.jpg';
 import oxleyBuilding from '../assets/oxley-building.png';
+import { shareImages } from '../data/share';
 
 const issues = [
 	{
@@ -27,6 +28,7 @@ const issues = [
 <Layout
 	title="Services | Present Joy Therapy, South Pasadena"
 	description="Individual psychotherapy for adults facing addiction, anger, depression, and grief and loss — a person-centered, strengths-based approach in South Pasadena, CA."
+	share={shareImages.couch}
 >
 	<div class="services-page" data-reveal>
 		<header>

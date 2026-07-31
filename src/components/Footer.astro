@@ -4,10 +4,20 @@ import NavLink from './NavLink.astro';
 import logo from '../assets/logo.png';
 import { navLinks } from '../data/navigation';
 
+interface Props {
+	/**
+	 * Set when the section above already closes with a rule of its own, so the
+	 * footer drops its divider at the widths where the two would line up.
+	 */
+	flush?: boolean;
+}
+
+const { flush = false } = Astro.props;
+
 const year = new Date().getFullYear();
 ---
 
-<footer class="site-footer">
+<footer class:list={['site-footer', { flush }]}>
 	<div class="footer-inner">
 		<a class="footer-logo" href="/" aria-label="Present Joy — home">
 			<Image src={logo} alt="Present Joy" widths={[120, 240]} sizes="120px" loading="lazy" />
@@ -47,6 +57,21 @@ const year = new Date().getFullYear();
 		margin: 0 auto;
 		padding-block: clamp(2.5rem, 6vw, 4rem);
 		border-top: 1px solid var(--hairline);
+	}
+
+	/* One column above, so the FAQ's closing rule spans this same width and the
+	   two read as a double line. The footer gives way rather than the FAQ, which
+	   needs its rule to bound the last answer. */
+	.site-footer.flush .footer-inner {
+		border-top: 0;
+	}
+
+	/* From here the FAQ is two columns and its rules sit in the right-hand one,
+	   no longer aligned with this, so the divider comes back. */
+	@media (min-width: 48rem) {
+		.site-footer.flush .footer-inner {
+			border-top: 1px solid var(--hairline);
+		}
 	}
 
 	.footer-logo {

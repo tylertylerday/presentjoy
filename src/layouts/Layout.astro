@@ -118,7 +118,7 @@ const schema = {
 
 		<Backdrop extended={hasOutro}>
 			<slot name="outro" />
-			<Footer />
+			<Footer flush={hasOutro} />
 		</Backdrop>
 
 		<script>

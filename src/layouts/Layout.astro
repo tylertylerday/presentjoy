@@ -135,14 +135,6 @@ const schema = {
 		--muted: #7c8598;
 		--hairline: #d5ddef;
 
-		/* The Intro photo is square and fills a third of the container, so it
-		   is a third of the content width tall. That section rides up over the
-		   hero by half of it, and the hero reserves the same amount as
-		   clearance — hence one definition for both. Keep in step with Intro's
-		   grid-template-columns. */
-		--intro-photo-size: calc((min(60rem, 100vw) - 3rem) / 3);
-		--section-overlap: calc(var(--intro-photo-size) / 2);
-
 		/* Page titles and section headings read at one size, so they stay in
 		   step from a single definition. */
 		--heading-size: clamp(1.5rem, 1.3rem + 1vw, 2rem);

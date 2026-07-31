@@ -35,13 +35,8 @@ import Button from './Button.astro';
 
 	@media (min-width: 48rem) {
 		.intro {
-			position: relative;
-			z-index: 1;
 			grid-template-columns: 1fr 2fr;
 			align-items: stretch;
-			padding-top: 0;
-			/* Rides up over the hero by half the photo's height. */
-			margin-top: calc(-1 * var(--section-overlap));
 		}
 	}
 

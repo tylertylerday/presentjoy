@@ -111,19 +111,5 @@ import heroImage from '../assets/hero.jpg';
 		.hero-copy {
 			max-width: 60%;
 		}
-
-		/*
-		 * The next section rides up over the hero's bottom edge. That pull is
-		 * width-derived while the padding above is height-derived, so on a
-		 * short, wide viewport the two disagree and the section lands on top of
-		 * the copy. Reserving at least the overlap plus a margin keeps them
-		 * apart at every ratio.
-		 */
-		.hero-content {
-			padding-bottom: max(
-				clamp(5rem, 24svh, 20rem),
-				calc(var(--section-overlap) + 3rem)
-			);
-		}
 	}
 </style>

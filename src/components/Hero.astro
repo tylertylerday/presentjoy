@@ -22,15 +22,17 @@ import heroImage from '../assets/hero.jpg';
 		<Nav />
 
 		<div class="hero-content">
-			<p data-reveal>
-				Present Joy is a walk of hope that does not ask for more than we can give, yet gives more
-				than we dared ask. It is a pilgrimage that lasts a lifetime for those who seek recovery, not
-				a cure; progress, not perfection. It is a journey that rejoices on the other side of the
-				burdens we carry and pains we try to hide. Present Joy is the recovery that guides us all our
-				days and the conviction that keeps us every step of the way.
-			</p>
+			<div class="container">
+				<p data-reveal>
+					Present Joy is a walk of hope that does not ask for more than we can give, yet gives more
+					than we dared ask. It is a pilgrimage that lasts a lifetime for those who seek recovery,
+					not a cure; progress, not perfection. It is a journey that rejoices on the other side of
+					the burdens we carry and pains we try to hide. Present Joy is the recovery that guides us
+					all our days and the conviction that keeps us every step of the way.
+				</p>
 
-			<Button href="/about" data-reveal>Learn More</Button>
+				<Button href="/about" data-reveal>Learn More</Button>
+			</div>
 		</div>
 	</div>
 </section>
@@ -80,20 +82,39 @@ import heroImage from '../assets/hero.jpg';
 		display: grid;
 		flex: 1;
 		align-content: center;
-		justify-items: center;
-		gap: 2.75rem;
-		/* Extra bottom padding pulls the centred copy up, scaled to viewport
-		   height so it rises on tall screens without crowding short ones. */
-		padding: 1rem 1.5rem clamp(5rem, 24svh, 20rem);
+		/* Extra bottom padding pulls the copy up, scaled to viewport height so
+		   it rises on tall screens without crowding short ones. The horizontal
+		   gutter comes from .container. */
+		padding-block: 1rem clamp(5rem, 24svh, 20rem);
 	}
 
 	.hero-content p {
-		max-width: 46ch;
-		margin: 0;
+		margin: 0 0 2.75rem;
 		color: var(--brand-blue);
-		font-size: clamp(1.0625rem, 0.9rem + 0.7vw, 1.5rem);
+		font-size: clamp(1rem, 0.95rem + 0.45vw, 1.25rem);
 		line-height: 1.75;
-		text-align: center;
 		text-wrap: pretty;
+	}
+
+	/* Held to 60% of the section width. Full width below the breakpoint, where
+	   60% would leave the copy in a very narrow column. */
+	@media (min-width: 48rem) {
+		.hero-content p {
+			max-width: 60%;
+		}
+
+		/*
+		 * The next section rides up over the hero's bottom edge. That pull is
+		 * width-derived while the padding above is height-derived, so on a
+		 * short, wide viewport the two disagree and the section lands on top of
+		 * the copy. Reserving at least the overlap plus a margin keeps them
+		 * apart at every ratio.
+		 */
+		.hero-content {
+			padding-bottom: max(
+				clamp(5rem, 24svh, 20rem),
+				calc(var(--section-overlap) + 3rem)
+			);
+		}
 	}
 </style>

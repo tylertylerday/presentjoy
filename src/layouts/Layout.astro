@@ -55,6 +55,14 @@ const hasOutro = Astro.slots.has('outro');
 		--brand-blue: #004cd6;
 		--muted: #7c8598;
 		--hairline: #d5ddef;
+
+		/* The Intro photo is square and fills a third of the container, so it
+		   is a third of the content width tall. That section rides up over the
+		   hero by half of it, and the hero reserves the same amount as
+		   clearance — hence one definition for both. Keep in step with Intro's
+		   grid-template-columns. */
+		--intro-photo-size: calc((min(60rem, 100vw) - 3rem) / 3);
+		--section-overlap: calc(var(--intro-photo-size) / 2);
 	}
 
 	*,
@@ -91,9 +99,9 @@ const hasOutro = Astro.slots.has('outro');
 	h2 {
 		margin: 0;
 		color: var(--brand-blue);
-		font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+		font-size: clamp(1.5rem, 1.3rem + 1vw, 2rem);
 		font-weight: 500;
-		line-height: 1.15;
+		line-height: 1.2;
 		letter-spacing: -0.01em;
 		text-wrap: balance;
 	}

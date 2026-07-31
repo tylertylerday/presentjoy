@@ -56,22 +56,24 @@ const { extended = false } = Astro.props;
 
 	/*
 	 * When the section above can grow — an accordion opening, say — sizing the
-	 * photo to the container would make it rescale and slide on every toggle.
-	 * So its box is derived from the viewport instead: tall enough to show the
-	 * full frame top to bottom, and completely independent of content height.
-	 * The photo then never moves; growth simply reveals more of it, and past
-	 * its end the matching `background-color` carries on seamlessly.
+	 * photo to the container would make it rescale on every toggle. So its box
+	 * is derived from the viewport instead: tall enough to show the full frame
+	 * top to bottom, at a fixed size whatever the content does.
+	 *
+	 * It hangs from the bottom, so the valley floor always lands behind the
+	 * footer. A container shorter than the box then crops into the sky at the
+	 * top rather than cutting the mountains off, and past the photo's top edge
+	 * the matching `background-color` carries the sky on seamlessly.
 	 */
 	.extended {
 		--photo-height: max(100svh, calc(100vw * 1.015));
 
-		background-color: rgb(2 8 11);
+		background-color: rgb(1 62 100);
 	}
 
 	.extended :global(.backdrop-bg) {
-		inset: 0 0 auto;
+		inset: auto 0 0;
 		height: var(--photo-height);
-		object-position: center top;
 	}
 
 	/* The upper sky is already deep enough for light text, so the scrim stays
@@ -93,10 +95,10 @@ const { extended = false } = Astro.props;
 	}
 
 	/* Tracks the photo box, so the gradient's stops stay pinned to the ridge
-	   and horizon rather than drifting as the section grows. Below it the
-	   `background-color` is already the scrim's end value composited in. */
+	   and horizon rather than drifting as the section grows. Above it the
+	   `background-color` is already the scrim's opening value composited in. */
 	.extended::after {
-		inset: 0 0 auto;
+		inset: auto 0 0;
 		height: var(--photo-height);
 	}
 

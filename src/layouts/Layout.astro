@@ -4,7 +4,7 @@ import Backdrop from '../components/Backdrop.astro';
 import Footer from '../components/Footer.astro';
 import Nav from '../components/Nav.astro';
 import shareImage from '../assets/hero.jpg';
-import { business } from '../data/business';
+import { business, phoneHref } from '../data/business';
 
 interface Props {
 	title: string;
@@ -40,6 +40,7 @@ const schema = {
 	description: business.description,
 	url: business.url,
 	email: business.email,
+	telephone: phoneHref.replace('tel:', ''),
 	image: shareUrl.href,
 	priceRange: business.priceRange,
 	address: {

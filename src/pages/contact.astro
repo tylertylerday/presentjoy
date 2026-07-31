@@ -1,7 +1,7 @@
 ---
 import Button from '../components/Button.astro';
 import Layout from '../layouts/Layout.astro';
-import { business } from '../data/business';
+import { business, phoneHref } from '../data/business';
 
 const { street, city, region, postalCode } = business.address;
 const address = [street, `${city}, ${region} ${postalCode}`];
@@ -26,7 +26,12 @@ const mapSrc = `https://www.google.com/maps/embed?pb=!1m3!2m1!1s${encodeURICompo
 
 			<div class="detail">
 				<h2>Email</h2>
-				<p><a href="mailto:hello@presentjoy.la">hello@presentjoy.la</a></p>
+				<p><a href={`mailto:${business.email}`}>{business.email}</a></p>
+			</div>
+
+			<div class="detail">
+				<h2>Phone</h2>
+				<p><a href={phoneHref}>{business.phone}</a></p>
 			</div>
 
 			<div class="detail">

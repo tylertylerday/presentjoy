@@ -8,6 +8,7 @@ export const business = {
 	legalName: 'Present Joy Therapy',
 	url: 'https://presentjoy.la',
 	email: 'hello@presentjoy.la',
+	phone: '(424) 499-0430',
 	description:
 		'Present Joy Therapy is a recovery-focused psychotherapy practice in South Pasadena, CA, providing in-person and telehealth care to adults facing addiction, anger, depression, and grief and loss.',
 	// Schema.org's coarse bands, not a rate. The fee itself lives in the FAQ.
@@ -31,3 +32,6 @@ export const business = {
 		'Grief and loss counseling',
 	],
 };
+
+/** `tel:` links and schema.org both want the digits, not the formatting. */
+export const phoneHref = `tel:+1${business.phone.replace(/\D/g, '')}`;

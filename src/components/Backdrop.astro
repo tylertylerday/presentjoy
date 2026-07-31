@@ -1,0 +1,106 @@
+---
+import { Image } from 'astro:assets';
+import valley from '../assets/valley.jpg';
+
+interface Props {
+	/** True when a section sits above the footer, making this tall and growable. */
+	extended?: boolean;
+}
+
+const { extended = false } = Astro.props;
+---
+
+<div class:list={['backdrop', { extended }]}>
+	<Image
+		class="backdrop-bg"
+		src={valley}
+		alt=""
+		width={2018}
+		height={2048}
+		widths={[640, 1024, 1440, 2018]}
+		sizes="100vw"
+		loading="lazy"
+	/>
+
+	<div class="backdrop-body">
+		<slot />
+	</div>
+</div>
+
+<style>
+	.backdrop {
+		/* Dark context: the accent and surface tokens flip to light so every
+		   component inside (headings, FAQ, footer links, rules) inverts without
+		   needing its own dark-mode rules. */
+		--brand-blue: #e9eefc;
+		--muted: rgb(233 238 252 / 0.62);
+		--hairline: rgb(233 238 252 / 0.24);
+
+		position: relative;
+		overflow: hidden;
+		isolation: isolate;
+		color: #dfe7f7;
+	}
+
+	.backdrop :global(.backdrop-bg) {
+		position: absolute;
+		inset: 0;
+		z-index: -2;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		/* Anchored low so a short backdrop (pages without an outro section)
+		   still lands on the dark valley rather than the bright horizon. */
+		object-position: center bottom;
+	}
+
+	/*
+	 * When the section above can grow — an accordion opening, say — sizing the
+	 * photo to the container would make it rescale and slide on every toggle.
+	 * So its box is derived from the viewport instead: tall enough to show the
+	 * full frame top to bottom, and completely independent of content height.
+	 * The photo then never moves; growth simply reveals more of it, and past
+	 * its end the matching `background-color` carries on seamlessly.
+	 */
+	.extended {
+		--photo-height: max(100svh, calc(100vw * 1.015));
+
+		background-color: rgb(2 8 11);
+	}
+
+	.extended :global(.backdrop-bg) {
+		inset: 0 0 auto;
+		height: var(--photo-height);
+		object-position: center top;
+	}
+
+	/* The upper sky is already deep enough for light text, so the scrim stays
+	   light there and peaks over the sunlit ridge around 72% depth. */
+	.backdrop::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: linear-gradient(
+			to bottom,
+			rgb(3 16 30 / 0.26) 0%,
+			rgb(3 16 30 / 0.28) 30%,
+			rgb(3 16 30 / 0.38) 50%,
+			rgb(3 16 30 / 0.55) 72%,
+			rgb(3 16 30 / 0.42) 86%,
+			rgb(3 16 30 / 0.26) 100%
+		);
+	}
+
+	/* Tracks the photo box, so the gradient's stops stay pinned to the ridge
+	   and horizon rather than drifting as the section grows. Below it the
+	   `background-color` is already the scrim's end value composited in. */
+	.extended::after {
+		inset: 0 0 auto;
+		height: var(--photo-height);
+	}
+
+	.backdrop-body {
+		position: relative;
+	}
+</style>

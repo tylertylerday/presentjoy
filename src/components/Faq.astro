@@ -1,0 +1,238 @@
+---
+import Minus from '@lucide/astro/icons/minus';
+import Plus from '@lucide/astro/icons/plus';
+
+// Answers hold authored markup (links, emphasis), so they render with set:html.
+const faqs = [
+	{
+		question: 'What are your qualifications?',
+		answer: [
+			'I am a Licensed Clinical Social Worker (LCSW # 76172) registered with the California Board of Behavioral Sciences. For nearly fifteen years, I provided for the mental health needs of Los Angeles’s most vulnerable in an outpatient clinic on skid row. I have applied the principles of Cognitive Behavioral Therapy, Dialectical Behavioral Therapy and Motivational Interviewing in both individual and group work. I received my master’s in social welfare in 2012 from UCLA, where I was taught from a generalist framework and trained in public mental health and psychotherapy.',
+		],
+	},
+	{
+		question: 'What are you like as a therapist and what is your framework?',
+		answer: [
+			'I take my work very seriously. Walking with others in their recovery is a privilege I do not take lightly.',
+			'I consider the quality of the rapport I build with my clients to be the foundation of all I do. It goes without saying that the therapeutic trust that’s established with my clients is earned, not given. So, whether I am seated directly across from them or projected onto a laptop screen, I am laser-focused, listening intently without judgment. When asked to do so, I will give reflective feedback and thoughtful counsel that serves my clients and their goals for therapy.',
+			'Early on in my career, I found myself being drawn unknowingly to the work of the American psychologist, Carl Rogers, a man whose work I obviously overlooked in grad school. One of his most well-known quotes is: “<strong>The curious paradox is that when I accept myself just as I am, then I can change.</strong>” I carry that framework with me into therapy and believe that there is hardly a soul on this good earth who is incapable of change.',
+		],
+	},
+	{
+		question: 'Aside from the issues listed above, are there others that you treat?',
+		answer: [
+			'Absolutely. I also work with individuals experiencing problems related to life transitions, caregiver stress, cultural issues and professional burnout. I do not treat any other clinical issues other than what I have laid out.',
+		],
+	},
+	{
+		question: 'How do I get started?',
+		answer: [
+			'Use the contact form found <a href="/contact">here</a>. I respond to inquiries within two business days.',
+			'I run this small business in such a way that prioritizes and values quality over quantity. To that end, I provide a complimentary, 30-minute video consultation call to learn more about your needs and to determine whether we would work well together. Video calls provide what a telephone call cannot—a first-hand view of how I actually show up in session.',
+		],
+	},
+	{
+		question: 'How are our sessions conducted?',
+		answer: [
+			'For those residing in Los Angeles, Orange, Riverside, and San Bernardino counties, our initial appointment is always held in-person. Subsequent sessions can be conducted in-person, by telehealth via a secure video platform, or in a hybrid format, depending on your circumstances and preferences.',
+			'All appointments will be held virtually for those residing in all other counties in California.',
+			'Compared to other days, there is wider availability on Saturdays for in-person appointments.',
+		],
+	},
+	{
+		question: 'Do you accept insurance?',
+		answer: [
+			'I do not. I am considered an out-of-network provider, which means I do not maintain any active contractual agreements with any insurance company. If you have a PPO plan, you may receive reimbursement for some or all of the cost of psychotherapy. I can provide you with either a receipt after every session or a monthly receipt known as a super-bill that you then submit to your insurance company for review and processing. If you use an HSA-plan for qualified medical expenses, you will also need receipts or a super-bill for reimbursement.',
+			'If you need further assistance, I can help. I can provide you with some questions you can ask your insurance company so that you’re clear about your coverage.',
+		],
+	},
+	{
+		question: 'What are your fees? Do you offer a sliding-scale?',
+		answer: [
+			'My fee is $200 per session. Each session averages anywhere from 50 minutes to an hour. You have my word that I will never short you. In the event that a session goes past the hour as a result of an acute psychiatric crisis or emergency requiring immediate and timely intervention, proportionate fees will be assessed and an explanation of those specific charges given at a later time.',
+			'I’m all for the democratization of therapy and believe that therapy should be accessible and affordable to all. In that spirit, I offer a sliding-scale rate to a hard-capped number of clients who report financial hardship that they expect will not be resolved within three months of their first session. Every client’s financial situation is unique, and I do my best to work with everyone. Clients should expect a sliding-scale fee that is fair and carefully considered.',
+		],
+	},
+	{
+		question: 'Are you able to help me apply for disability benefits or take time off from work?',
+		answer: ['No.'],
+	},
+];
+---
+
+<section class="faq container">
+	<div class="faq-intro">
+		<h2>FAQ</h2>
+		<p>Find answers to commonly asked questions.</p>
+	</div>
+
+	<div class="faq-list">
+		{
+			faqs.map(({ question, answer }) => (
+				<details class="faq-item" data-accordion>
+					<summary>
+						<span class="faq-question">{question}</span>
+						<span class="faq-icon" aria-hidden="true">
+							<span class="icon-closed">
+								<Plus size={18} />
+							</span>
+							<span class="icon-open">
+								<Minus size={18} />
+							</span>
+						</span>
+					</summary>
+
+					<div class="faq-answer" data-accordion-panel>
+						<div class="faq-answer-inner">
+							{answer.map((paragraph) => (
+								<p set:html={paragraph} />
+							))}
+						</div>
+					</div>
+				</details>
+			))
+		}
+	</div>
+</section>
+
+<script>
+	import { setupAccordions } from '../scripts/accordion';
+
+	setupAccordions();
+</script>
+
+<style>
+	.faq {
+		display: grid;
+		gap: clamp(2rem, 4vw, 3rem);
+		padding-block: clamp(3rem, 8vw, 6rem);
+	}
+
+	@media (min-width: 48rem) {
+		.faq {
+			grid-template-columns: 18rem 1fr;
+			gap: clamp(2.5rem, 5vw, 4.5rem);
+			align-items: start;
+		}
+	}
+
+	.faq-intro p {
+		margin: 1rem 0 0;
+		max-width: 26ch;
+		font-size: 1rem;
+		line-height: 1.7;
+	}
+
+	.faq-item {
+		border-top: 1px solid var(--hairline);
+	}
+
+	.faq-item:last-child {
+		border-bottom: 1px solid var(--hairline);
+	}
+
+	.faq-item summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		padding: 1.25rem 0;
+		cursor: pointer;
+		list-style: none;
+	}
+
+	/* Suppress the native disclosure triangle. */
+	.faq-item summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.faq-question {
+		position: relative;
+		color: var(--brand-blue);
+		font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+		line-height: 1.4;
+		text-wrap: pretty;
+	}
+
+	/* Wipes in from the left, matching the nav links and text buttons. */
+	.faq-question::after {
+		content: '';
+		position: absolute;
+		right: 0;
+		bottom: -0.25em;
+		left: 0;
+		height: 1px;
+		background: currentColor;
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.faq-item summary:hover .faq-question::after,
+	.faq-item summary:focus-visible .faq-question::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.faq-question::after {
+			transition: none;
+		}
+	}
+
+	.faq-item summary:focus-visible {
+		outline: 2px solid var(--brand-blue);
+		outline-offset: 2px;
+	}
+
+	.faq-icon {
+		display: flex;
+		flex: none;
+		color: var(--brand-blue);
+	}
+
+	/* `data-closing` counts as closed, so the icon flips the moment the close
+	   animation starts rather than when it finishes. */
+	.icon-open {
+		display: none;
+	}
+
+	.faq-item[open]:not([data-closing]) .icon-closed {
+		display: none;
+	}
+
+	.faq-item[open]:not([data-closing]) .icon-open {
+		display: block;
+	}
+
+	/* Padding lives on the inner wrapper so the animated panel can collapse to
+	   a true zero height. */
+	.faq-answer-inner {
+		padding-bottom: 1.5rem;
+	}
+
+	.faq-answer :global(p) {
+		margin: 0 0 1rem;
+		max-width: 68ch;
+		font-size: 1rem;
+		line-height: 1.7;
+		text-wrap: pretty;
+	}
+
+	.faq-answer :global(p:last-child) {
+		margin-bottom: 0;
+	}
+
+	/* Underlined because the accent and body text sit close together in tone
+	   against the backdrop. */
+	.faq-answer :global(a) {
+		color: var(--brand-blue);
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	.faq-answer :global(strong) {
+		font-style: italic;
+		font-weight: 600;
+	}
+</style>

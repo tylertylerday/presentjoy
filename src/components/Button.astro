@@ -1,0 +1,95 @@
+---
+import ArrowRight from '@lucide/astro/icons/arrow-right';
+
+interface Props {
+	href: string;
+	variant?: 'solid' | 'text';
+	[key: string]: unknown;
+}
+
+const { href, variant = 'solid', ...rest } = Astro.props;
+---
+
+<a class:list={['btn', variant]} href={href} {...rest}>
+	<span class="btn-label"><slot /></span>
+	<ArrowRight size={16} aria-hidden="true" />
+</a>
+
+<style>
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.625rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		text-decoration: none;
+	}
+
+	.btn :global(svg) {
+		flex: none;
+		transition: transform 150ms ease;
+	}
+
+	.btn:hover :global(svg) {
+		transform: translateX(3px);
+	}
+
+	.btn:focus-visible {
+		outline: 2px solid var(--brand-blue);
+		outline-offset: 3px;
+	}
+
+	.solid {
+		padding: 0.9rem 2.25rem;
+		background: var(--brand-blue);
+		color: #fff;
+		transition: background-color 150ms ease;
+	}
+
+	.solid:hover,
+	.solid:focus-visible {
+		background: #003ba6;
+	}
+
+	.text {
+		color: var(--brand-blue);
+	}
+
+	/* Underline wipes in from the left, matching the nav links. Scoped to the
+	   label so it stops short of the arrow. */
+	.text .btn-label {
+		position: relative;
+	}
+
+	.text .btn-label::after {
+		content: '';
+		position: absolute;
+		right: 0;
+		bottom: -0.3em;
+		left: 0;
+		height: 1px;
+		background: currentColor;
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.text:hover .btn-label::after,
+	.text:focus-visible .btn-label::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.btn :global(svg),
+		.text .btn-label::after {
+			transition: none;
+		}
+
+		.btn:hover :global(svg) {
+			transform: none;
+		}
+	}
+</style>

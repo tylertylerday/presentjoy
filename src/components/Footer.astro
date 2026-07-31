@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import NavLink from './NavLink.astro';
+import logo from '../assets/logo.png';
+import { navLinks } from '../data/navigation';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<div class="footer-inner">
+		<a class="footer-logo" href="/" aria-label="Present Joy — home">
+			<Image src={logo} alt="Present Joy" widths={[120, 240]} sizes="120px" loading="lazy" />
+		</a>
+
+		<nav aria-label="Footer">
+			<ul>
+				{
+					navLinks.map(({ href, label }) => (
+						<li>
+							<NavLink href={href}>{label}</NavLink>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+
+		<p class="footer-note">&copy; {year} Present Joy. All rights reserved.</p>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		border-top: 1px solid var(--hairline);
+	}
+
+	.footer-inner {
+		display: flex;
+		max-width: 60rem;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.75rem;
+		margin: 0 auto;
+		padding: clamp(2.5rem, 6vw, 4rem) 1.5rem;
+	}
+
+	.footer-logo {
+		display: block;
+		line-height: 0;
+	}
+
+	.footer-logo img {
+		width: 120px;
+		height: auto;
+		/* Blue ring and near-black tree both vanish against the dark valley, so
+		   the line art is flattened to white. Alpha is preserved. */
+		filter: brightness(0) invert(1);
+	}
+
+	nav ul {
+		--link-size: 0.8125rem;
+
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 2rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.footer-note {
+		margin: 0;
+		color: var(--muted);
+		font-size: 0.8125rem;
+		text-align: center;
+	}
+</style>

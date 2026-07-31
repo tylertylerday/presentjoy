@@ -1,0 +1,57 @@
+---
+interface Props {
+	href: string;
+}
+
+const { href } = Astro.props;
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = path === href;
+---
+
+<a href={href} aria-current={isCurrent ? 'page' : undefined}>
+	<slot />
+</a>
+
+<style>
+	a {
+		position: relative;
+		color: var(--brand-blue);
+		font-size: var(--link-size, 1rem);
+		font-weight: 500;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		text-decoration: none;
+		padding-bottom: 0.25rem;
+	}
+
+	/* Wipes in from the left on hover, retracts to the right on leave. */
+	a::after {
+		content: '';
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		height: 1px;
+		background: currentColor;
+		transform: scaleX(0);
+		transform-origin: right;
+		transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	a:hover::after,
+	a:focus-visible::after {
+		transform: scaleX(1);
+		transform-origin: left;
+	}
+
+	a[aria-current='page']::after {
+		transform: scaleX(1);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		a::after {
+			transition: none;
+		}
+	}
+</style>

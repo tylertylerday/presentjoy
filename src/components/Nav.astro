@@ -1,0 +1,65 @@
+---
+import { Image } from 'astro:assets';
+import NavLink from './NavLink.astro';
+import logo from '../assets/logo.png';
+import { navLinks } from '../data/navigation';
+---
+
+<header class="site-header">
+	<a class="logo" href="/" aria-label="Present Joy — home" data-reveal>
+		<Image src={logo} alt="Present Joy" widths={[220, 440]} sizes="220px" loading="eager" />
+	</a>
+
+	<nav aria-label="Main">
+		<ul>
+			{
+				navLinks.map(({ href, label }) => (
+					<li data-reveal>
+						<NavLink href={href}>{label}</NavLink>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+</header>
+
+<style>
+	.site-header {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.5rem;
+		padding: 2rem 1.5rem;
+	}
+
+	.logo {
+		display: block;
+		line-height: 0;
+	}
+
+	.logo img {
+		width: 220px;
+		height: auto;
+	}
+
+	nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 2.5rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+
+	@media (max-width: 480px) {
+		nav ul {
+			gap: 1.25rem;
+		}
+
+		.logo img {
+			width: 170px;
+		}
+	}
+</style>

@@ -55,6 +55,34 @@ const { extended = false } = Astro.props;
 	}
 
 	/*
+	 * With no section above it, the backdrop is only as tall as the footer. A
+	 * photo covering a box that wide is scaled to the viewport, so the little
+	 * of it that shows is all valley floor and the ridge is cut off above the
+	 * top edge — the crop narrow screens never reach, because there the footer
+	 * is tall next to its width.
+	 *
+	 * So past the width where that starts to bite, the band takes a floor set
+	 * as a share of the viewport width. The photo is scaled to that same width,
+	 * so the fraction of the frame on show — and with it the framing of the
+	 * peaks — holds steady at every size, and the footer sits at the foot of it.
+	 */
+	@media (min-width: 48rem) {
+		.backdrop:not(.extended) {
+			display: flex;
+			min-height: 36vw;
+			flex-direction: column;
+			justify-content: flex-end;
+		}
+
+		/* Once the band stands taller than the footer, its own top edge is what
+		   parts the footer from the page above, and the footer's rule is left
+		   drawing a line across the photo. */
+		.backdrop:not(.extended) :global(.footer-inner) {
+			border-top: 0;
+		}
+	}
+
+	/*
 	 * When the section above can grow — an accordion opening, say — sizing the
 	 * photo to the container would make it rescale on every toggle. So its box
 	 * is derived from the viewport instead: tall enough to show the full frame

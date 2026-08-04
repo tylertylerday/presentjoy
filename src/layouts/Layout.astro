@@ -158,6 +158,16 @@ const schema = {
 		color: #1a1a1a;
 		font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
 		overflow-x: hidden;
+		/*
+		 * Scroll anchoring holds whatever sits below a growing element still, by
+		 * scrolling to match. Opening an FAQ answer grows the page deliberately,
+		 * under the pointer, so that correction drags the question the reader
+		 * just clicked up off the top of the screen and the answer opens
+		 * mid-paragraph. Nothing here loads in late enough to need anchoring —
+		 * every image is sized in the markup and reserves its own space — so the
+		 * page keeps the scroll position it is given.
+		 */
+		overflow-anchor: none;
 	}
 
 	/* Shared page- and section-heading treatment. */

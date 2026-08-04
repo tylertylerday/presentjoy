@@ -55,30 +55,31 @@ const { extended = false } = Astro.props;
 	}
 
 	/*
-	 * With no section above it, the backdrop is only as tall as the footer. A
-	 * photo covering a box that wide is scaled to the viewport, so the little
-	 * of it that shows is all valley floor and the ridge is cut off above the
-	 * top edge — the crop narrow screens never reach, because there the footer
-	 * is tall next to its width.
+	 * With no section above it, the backdrop is only as tall as the footer, and
+	 * the photo is scaled to cover a box that wide. The slice left on show is a
+	 * narrow one, and anchored to the bottom it falls wholly on the valley
+	 * floor, with the ridge cut off above the top edge. Narrow screens never
+	 * reach that crop, the footer being tall there next to its width.
 	 *
-	 * So past the width where that starts to bite, the band takes a floor set
-	 * as a share of the viewport width. The photo is scaled to that same width,
-	 * so the fraction of the frame on show — and with it the framing of the
-	 * peaks — holds steady at every size, and the footer sits at the foot of it.
+	 * The band doesn't need to grow to fix it — the slice only needs taking
+	 * from higher up the frame. So past that width the crop lifts to sit on the
+	 * peaks. It stays a proportional position, which holds the framing steady
+	 * as the slice narrows on wider screens, and keeps the darkest part of the
+	 * valley under the footer's own text.
 	 */
 	@media (min-width: 48rem) {
-		.backdrop:not(.extended) {
-			display: flex;
-			min-height: 36vw;
-			flex-direction: column;
-			justify-content: flex-end;
+		.backdrop:not(.extended) :global(.backdrop-bg) {
+			object-position: center 80%;
 		}
+	}
 
-		/* Once the band stands taller than the footer, its own top edge is what
-		   parts the footer from the page above, and the footer's rule is left
-		   drawing a line across the photo. */
-		.backdrop:not(.extended) :global(.footer-inner) {
-			border-top: 0;
+	/* The band holds its height as the screen widens, but the photo is still
+	   scaled to that width, so the slice on show keeps thinning and the summit
+	   creeps back towards the top edge. Around here it is close enough to it
+	   that the crop lifts once more to keep the tops clear. */
+	@media (min-width: 128rem) {
+		.backdrop:not(.extended) :global(.backdrop-bg) {
+			object-position: center 75%;
 		}
 	}
 
